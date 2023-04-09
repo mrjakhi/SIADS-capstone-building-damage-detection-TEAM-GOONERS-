@@ -3,14 +3,20 @@ import os
 import random
 import shutil
 import time
+
 from matplotlib.collections import PatchCollection
 from matplotlib.patches import Polygon
 import matplotlib.pyplot as plt
+
 import numpy as np
 import pandas as pd
+
 pd.set_option('display.max_columns', None)
+
 from PIL import Image
+
 import shapely.wkt
+
 from tqdm import tqdm
 
 # ------------------------------------------------------------------------------------------------------------- #
@@ -18,6 +24,7 @@ from tqdm import tqdm
 
 color_dict = {'none': 'c', 'no-damage': 'w', 'minor-damage': 'darkseagreen',
               'major-damage': 'orange', 'destroyed': 'red', 'un-classified': 'b'}
+
 
 # Define the directory to search
 
@@ -27,18 +34,12 @@ color_dict = {'none': 'c', 'no-damage': 'w', 'minor-damage': 'darkseagreen',
 # print(files)
 
 
-directory_label = r"C:\Users\mjakhi\PycharmProjects\SIADS-capstone-building-damage-detection-TEAM-GOONERS-\Full_challenge_dataset" \
-                  r"\train\labels"
-directory_img = r"C:\Users\mjakhi\PycharmProjects\SIADS-capstone-building-damage-detection-TEAM-GOONERS-\Full_challenge_dataset" \
-                r"\train\images"
+# directory_label = r"C:\Users\mjakhi\PycharmProjects\SIADS-capstone-building-damage-detection-TEAM-GOONERS-\labels"
+# directory_img = r"C:\Users\mjakhi\PycharmProjects\SIADS-capstone-building-damage-detection-TEAM-GOONERS-\images"
 
-# Define the file extensions to search for
-image_extensions = [".png"]
-json_extensions = [".json"]
-
-imgs = sorted([os.path.join(directory_img, im) for im in os.listdir(directory_img)])
-jsons = sorted([os.path.join(directory_label, im) for im in os.listdir(directory_label)])
-
+# # Define the file extensions to search for
+# image_extensions = [".png"]
+# json_extensions = [".json"]
 
 # ------------------------------------------------------------------------------------------------------------- #
 
@@ -160,33 +161,39 @@ def view_pre_post(ann_df, disaster="guatemala-volcano", imid="00000000"):
     plt.show()
 
 
+# ------------------------------------------------------------------------------------------------------------- #
+# directory_label = r"C:\Users\mjakhi\PycharmProjects\SIADS-capstone-building-damage-detection-TEAM-GOONERS-\labels"
+# directory_img = r"C:\Users\mjakhi\PycharmProjects\SIADS-capstone-building-damage-detection-TEAM-GOONERS-\images"
+
+# imgs = sorted([os.path.join(directory_img, im) for im in os.listdir(directory_img)])
+# jsons = sorted([os.path.join(directory_label, im) for im in os.listdir(directory_label)])
 
 # ------------------------------------------------------------------------------------------------------------- #
 
+# Create annotation dictionary and annotation dataframe
 
-# ------------------------------------------------------------------------------------------------------------- #
+def ann_dictionary_ann_df(directory_label_path):
+    print('Loading annotations into memory...')
+    jsons = sorted([os.path.join(directory_label_path, im) for im in os.listdir(directory_label_path)])
 
-# Create annotation dictionary
+    tic = time.time()
+    anns = [json.load(open(ann, 'r')) for ann in jsons]
+    # print(anns)
+    print('Done (t={:0.2f}s)'.format(time.time() - tic))
 
-print('Loading annotations into memory...')
-tic = time.time()
-anns = [json.load(open(ann, 'r')) for ann in jsons]
-# print(anns)
-print('Done (t={:0.2f}s)'.format(time.time() - tic))
+    ann_dict = dict(zip(jsons, anns))
+    # print(ann_dict)
 
-ann_dict = dict(zip(jsons, anns))
-# print(ann_dict)
+    # Create annotation dataframe
+    print('Creating annotation dataframe...')
+    tic = time.time()
+    ann_df = generate_dataframe(ann_dict)
+    # print("ann_df columns: ", ann_df.columns)
+    # print("ann_df : ", ann_df)
 
-# ------------------------------------------------------------------------------------------------------------- #
+    print('Done (t={:0.2f}s)'.format(time.time() - tic))
 
-# Create annotation dataframe
-print('Creating annotation dataframe...')
-tic = time.time()
-ann_df = generate_dataframe(ann_dict)
-# print("ann_df columns: ", ann_df.columns)
-# print("ann_df : ", ann_df)
-
-print('Done (t={:0.2f}s)'.format(time.time() - tic))
+    return ann_df
 
 # ------------------------------------------------------------------------------------------------------------- #
 
@@ -195,12 +202,3 @@ print('Done (t={:0.2f}s)'.format(time.time() - tic))
 # view_pre_post(ann_df, 'guatemala-volcano', '00000015')
 
 # ------------------------------------------------------------------------------------------------------------- #
-
-# EDA
-
-print("df length : ", len(ann_df))
-print("df columns : ", ann_df.columns)
-print("Unique disasters types in df : ", ann_df['disaster_type'].unique())
-print("Unique disasters in df : ", ann_df['disaster'].unique())
-print("Unique damage cat in df : ", ann_df['dmg_cat'].unique())
-
