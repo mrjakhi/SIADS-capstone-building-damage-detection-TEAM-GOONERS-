@@ -14,10 +14,14 @@ from models.siam_unet import SiamUnet
 from utils.utils import AverageMeter, load_json_files
 from utils.train_evalmetrics import compute_eval_metrics, compute_confusion_mtrx
 from utils.datasets import DisasterDataset
+import hydra
+from omegaconf import DictConfig
 
-
-def main():
-    device = torch.device(config['device'] if torch.cuda.is_available() else "cpu")
+@hydra.main(config_path='../configs',
+			config_name='config.yaml',
+            version_base=None)
+def main(cfg: DictConfig):
+    device = torch.device(cfg.params.device if torch.cuda.is_available() else "cpu")
     
     global viz, labels_set_dmg, labels_set_bld
     global xBD_train, xBD_val
@@ -26,12 +30,12 @@ def main():
     
     xBD_train, xBD_val = load_dataset()
 
-    train_loader = DataLoader(xBD_train, batch_size=config['batch_size'], shuffle=True, num_workers=8, pin_memory=False)
-    val_loader = DataLoader(xBD_val, batch_size=config['batch_size'], shuffle=False, num_workers=8, pin_memory=False)
+    train_loader = DataLoader(xBD_train, batch_size=cfg.params.batch_size, shuffle=True, num_workers=8, pin_memory=False)
+    val_loader = DataLoader(xBD_val, batch_size=cfg.params.batch_size, shuffle=False, num_workers=8, pin_memory=False)
 
-    labels_set_dmg = config['labels_dmg']
-    labels_set_bld = config['labels_bld']
-    mode = config['mode']
+    labels_set_dmg = cfg.params.labels_dmg
+    labels_set_bld = cfg.params.labels_bld
+    mode = cfg.params.mode
 
     eval_results_tr_dmg = pd.DataFrame(columns=['epoch', 'class', 'precision', 'recall', 'f1', 'accuracy'])
     eval_results_tr_bld = pd.DataFrame(columns=['epoch', 'class', 'precision', 'recall', 'f1', 'accuracy'])
@@ -39,14 +43,14 @@ def main():
     eval_results_val_bld = pd.DataFrame(columns=['epoch', 'class', 'precision', 'recall', 'f1', 'accuracy'])
 
     # set up logger directory    
-    logger_dir = os.path.join(config['out_dir'], config['experiment_name'], 'logs')
+    logger_dir = os.path.join(cfg.experiment.out_dir, cfg.experiment.experiment_name, 'logs')
     os.makedirs(logger_dir, exist_ok=True)
     
     # define model
     model = SiamUnet().to(device=device)
     
     # Optimizer
-    optimizer = torch.optim.Adam(model.parameters(), lr=config['init_learning_rate'])
+    optimizer = torch.optim.Adam(model.parameters(), lr=cfg.params.lr)
     
     # Scheduler
     scheduler = ReduceLROnPlateau(optimizer, mode='min', patience=2000, verbose=True)
@@ -54,9 +58,9 @@ def main():
     # Initialize
     starting_epoch = 1
     best_acc = 0.0
-    weights_loss = config['weights_loss']
-    weights_seg_tf = torch.FloatTensor(config['weights_seg'])
-    weights_damage_tf = torch.FloatTensor(config['weights_damage'])
+    weights_loss = cfg.params.weights_loss
+    weights_seg_tf = torch.FloatTensor(cfg.params.weights_seg)
+    weights_damage_tf = torch.FloatTensor(cfg.params.weights_damage)
     
     # Loss function
     criterion_seg_1 = nn.CrossEntropyLoss(weight=weights_seg_tf).to(device=device)
@@ -70,7 +74,7 @@ def main():
     # Training epochs
     epoch = starting_epoch
     step_tr = 1
-    epochs = config['epochs']
+    epochs = cfg.epochs
     
     while (epoch <= epochs):
         # Train

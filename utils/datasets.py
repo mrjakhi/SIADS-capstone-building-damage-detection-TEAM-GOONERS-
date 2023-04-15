@@ -141,4 +141,11 @@ class DisasterDataset(Dataset):
         # replace non-classified pixels with background
         damage_class = np.where(damage_class==5, 0, damage_class)
         
-        return {'pre_image': torch.from_numpy(pre_img).type(torch.FloatTensor), 'post_image': torch.from_numpy(post_img).type(torch.FloatTensor), 'building_mask': torch.from_numpy(mask).type(torch.LongTensor), 'damage_mask': torch.from_numpy(damage_class).type(torch.LongTensor), 'pre_image_orig': transforms.ToTensor()(pre_img_orig), 'post_image_orig': transforms.ToTensor()(post_img_orig), 'img_file_idx':imgs_dir[0:-1*(len(img_suffix))].split('/')[-1] + img_suffix, 'preds_img_dir':preds_dir}
+        return {'pre_image': torch.from_numpy(pre_img).type(torch.FloatTensor), 
+                'post_image': torch.from_numpy(post_img).type(torch.FloatTensor), 
+                'building_mask': torch.from_numpy(mask).type(torch.LongTensor), 
+                'damage_mask': torch.from_numpy(damage_class).type(torch.LongTensor), 
+                'pre_image_orig': transforms.ToTensor()(pre_img_orig), 
+                'post_image_orig': transforms.ToTensor()(post_img_orig), 
+                'img_file_idx':imgs_dir[0:-1*(len(img_suffix))].split('/')[-1] + img_suffix, 
+                'preds_img_dir':preds_dir}

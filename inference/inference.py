@@ -21,18 +21,26 @@ from utils.inference_evalmetrics import compute_eval_metrics, compute_confusion_
 from utils.utils import AverageMeter, load_json_files
 from utils.eval_building_level import _evaluate_tile, get_label_and_pred_polygons_for_tile_mask_input, allowed_classes
 from torch.utils.tensorboard import SummaryWriter
+import hydra
+from omegaconf import DictConfig
+from omegaconf import OmegaConf
 
+@hydra.main(config_path='../configs',
+			config_name='config.yaml',
+            version_base=None)
+def main(cfg: DictConfig):
 
-def main():
-
-    device = torch.device(config['device'] if torch.cuda.is_available() else "cpu")
+    device = torch.device(cfg.params.device if torch.cuda.is_available() else "cpu")
     
     eval_results_val_dmg = pd.DataFrame(columns=['class', 'precision', 'recall', 'f1', 'accuracy'])
     eval_results_val_dmg_building_level = pd.DataFrame(columns=['class', 'precision', 'recall', 'f1', 'accuracy'])
     eval_results_val_bld = pd.DataFrame(columns=['class', 'precision', 'recall', 'f1', 'accuracy'])
 
+    # Set up evals directory
+    evals_dir = os.path.join(cfg.params.out_dir, cfg.experiment.test_name, 'evals')
+    os.makedirs(evals_dir, exist_ok=True)
     # Set up logger directory    
-    logger_dir = os.path.join(config['out_dir'], config['test_name'], 'logs')
+    logger_dir = os.path.join(cfg.params.out_dir, cfg.experiment.test_name, 'logs')
     os.makedirs(logger_dir, exist_ok=True)
     # Initialize logger instances
     logger_test= SummaryWriter(log_dir=logger_dir)
@@ -42,13 +50,13 @@ def main():
     label_map = load_json_files(args.label_map_json)
     test_dataset = load_dataset()
     
-    labels_set_dmg = config['labels_dmg']
-    labels_set_bld = config['labels_bld']
+    labels_set_dmg = cfg.params.labels_dmg
+    labels_set_bld = cfg.params.labels_bld
     
     #load model and its state from the given checkpoint
     model = SiamUnet()
-    checkpoint_path = config['best_model']
-    print('Loading checkpoint from {}'.format(checkpoint_path))
+    checkpoint_path = cfg.model.best_mdl
+    print(f'Loading checkpoint from {checkpoint_path}')
     try:
         checkpoint = torch.load(checkpoint_path, map_location=device)
         model.load_state_dict(checkpoint['state_dict'])
@@ -153,6 +161,12 @@ def validate(loader, model):
     return confusion_mtrx_df_val_dmg, confusion_mtrx_df_val_bld, confusion_mtrx_df_val_dmg_building_level
 
 def load_dataset():
+    # Setup to be able to use config.yaml
+    cwd = hydra.utils.get_original_cwd() 
+    cfg_path = os.path.join(cwd, "configs", "config.yaml")
+    cfg = OmegaConf.load(cfg_path)
+    
+    # Core function:
     splits = load_json_files(args.data_inference_dict)
     data_mean_stddev = load_json_files(args.data_mean_stddev)    
     test_ls = []
