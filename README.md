@@ -16,8 +16,11 @@ From xView2 website first we needed to create an account and download the respec
   Challenge holdout set (~2.6 GB)
   SHA1: fe7f162f0895bfaff134cab3abc23872f38d17da
 Data split was already provided between Train/Test/Hold (80/10/10)
+
 Unzip above files to have the folder structure given below. 
-Extract all folders in sample data folder
+Extract all folders in sample data folder. 
+Update the config.yaml file in the configs folder with updated value for the new folder path. 
+For ex. change "sampledata: ${hydra:runtime.cwd}/Sample data/" to ""sampledata: ${hydra:runtime.cwd}/Sample data/test" if you wish to run the inference.py on the test dataset.
 
 Folder structure is as below:
 - Train
@@ -35,7 +38,7 @@ Folder structure is as below:
 
 ![image](https://user-images.githubusercontent.com/55030743/230085270-adcd5ec8-6c1e-4fa3-888f-a11fe453490e.png)
 
-How to run the Streamlit App:
+###How to run the Streamlit App:
 
 Clone the github repository: 
 $ git clone
