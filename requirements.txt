@@ -25,3 +25,5 @@ PyYAML==6.0
 Pillow
 pandas
 numpy
+torch
+torchvision
