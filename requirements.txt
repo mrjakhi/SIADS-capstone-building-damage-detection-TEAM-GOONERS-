@@ -14,7 +14,6 @@ streamlit==1.21.0
 tqdm==4.65.0
 tensorboard==2.12.2
 tensorboardx==2.6
-torchaudio==2.0.1+cu118
 torchinfo==1.7.2
 torchsummary==1.5.1
 graphviz==0.20.1
@@ -22,7 +21,6 @@ torchviz==0.0.2
 typeshed-client==2.2.0
 scikit-learn==1.2.2
 shapely==2.0.1
-pywin32==306
 PyYAML==6.0
 Pillow
 pandas

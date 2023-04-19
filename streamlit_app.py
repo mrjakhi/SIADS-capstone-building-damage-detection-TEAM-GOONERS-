@@ -159,7 +159,7 @@ def load_data():
     cfg_path = os.path.join(cwd, "configs", "config.yaml")
     cfg = OmegaConf.load(cfg_path)
     
-    images_dir = cfg.paths.testdata + '/images'
+    images_dir = cfg.paths.appdata + '/images'
     incidents = list(set(['_'.join(i.split('_')[:2]) for i in os.listdir(images_dir)])) # Unique incidents
     print(incidents)
     test_dataset = DisasterDataset(images_dir, incidents, transform=False, normalize=False)

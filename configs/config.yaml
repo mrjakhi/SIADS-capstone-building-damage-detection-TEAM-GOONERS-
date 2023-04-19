@@ -5,6 +5,7 @@ paths:
   data: ../../../../Data/
   sampledata: ${hydra:runtime.cwd}/Sample data/
   testdata: ${hydra:runtime.cwd}/local/data
+  appdata: ${hydra:runtime.cwd}/Sample data/app_data/
 experiment:
   experiment_name: train_SiamUNet
   test_name: infer_00

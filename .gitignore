@@ -1,5 +1,6 @@
 #Folders
 local/
 outputs/
+__pycache__
 #Files
 config_trial.ipynb
