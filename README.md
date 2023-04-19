@@ -19,7 +19,9 @@ Data split was already provided between Train/Test/Hold (80/10/10)
 
 Unzip above files to have the folder structure given below. 
 Extract all folders in sample data folder. 
-Update the config.yaml file in the configs folder with updated value for the new folder path. 
+
+Update the config.yaml file in the configs folder with updated value for the new folder path.  
+
 For ex. change "sampledata: ${hydra:runtime.cwd}/Sample data/" to ""sampledata: ${hydra:runtime.cwd}/Sample data/test" if you wish to run the inference.py on the test dataset.
 
 Folder structure is as below:
