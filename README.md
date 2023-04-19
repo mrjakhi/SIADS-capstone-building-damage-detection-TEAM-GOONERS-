@@ -64,20 +64,31 @@ Folder structure is as below:
 
 ## How to run the Streamlit App:
 
-Clone the github repository: 
+- Clone the github repository: 
+
+
 $ git clone
 
-Install dependencies: 
+- Install dependencies: 
+
+
 $ pip install -r requirements.txt
 
-Run the streamlit app:
+- Run the streamlit app:
+
+
 $ python -m streamlit run streamlit_app.py
 
-Upload Pre and Post Disaster images:
+
+- Upload Pre and Post Disaster images:
+
+
 ![image](https://user-images.githubusercontent.com/55030743/233038963-4a62bc9f-0bff-41f4-a9ea-3642aeb077f6.png)
 
 
-Click “Assess Building Damage”
+- Click “Assess Building Damage”
+
+
 ![image](https://user-images.githubusercontent.com/55030743/233039062-3fb48b32-68a8-4946-8490-1fcc9cd8334b.png)
 
 
