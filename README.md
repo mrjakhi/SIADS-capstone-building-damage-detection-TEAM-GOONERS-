@@ -1,7 +1,13 @@
 # SIADS-capstone-building-damage-detection-TEAM-GOONERS-
 We plan to assess levels/severity of damage for the damaged buildings but with MVP solution we at minimum plan to develop a model that can distinguish between damaged and non damaged buildings. 
 
-## proposal and questions we hope to answer or explore? 
+- Natural disasters cause significant damage to our infrastructure.
+- The ability to quickly assess the damage is critical for emergency responders
+- Our goal is to apply ML to assess damage density in disaster-stricken areas using pre-disaster and post-disaster satellite imagery.
+![image](https://user-images.githubusercontent.com/55030743/233042593-aa5c9a7e-1eb2-421e-9a51-b94b536e3d32.png)
+
+
+## Proposal and questions we hope to answer or explore? 
 Using pre and post disaster satellite imagery of disaster stricken areas, we will assess building damage to aid first responders in selecting/prioritizing relief work in the affected areas. Post disaster relief work in 24-48 hrs if carried out in most affected areas can improve chances of rescuing survivors and minimize human casualties. We hope our classification model can identify most damaged structures in the affected area so that it can be used by the disaster management team to direct resources for relief work.
 
 ## What ethical challenges or concerns do we expect to encounter in this project? If there are potential concerns, how do we plan to mitigate them?
