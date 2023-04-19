@@ -64,6 +64,10 @@ Folder structure is as below:
 
 ## How to run the Streamlit App:
 
+
+- Run the app hosted in the streamlit cloud: https://elkoustubo-siads-capstone-building-damage--streamlit-app-lr2h85.streamlit.app/
+
+
 - Clone the github repository: 
 
 
