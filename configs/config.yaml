@@ -1,0 +1,29 @@
+defaults:
+  #- dataset: 
+  - _self_
+paths:
+  data: ../../../../Data/
+  sampledata: ${hydra:runtime.cwd}/Sample data/
+  testdata: ${hydra:runtime.cwd}/local/data
+experiment:
+  experiment_name: train_SiamUNet
+  test_name: infer_00
+  out_dir: ${hydra:runtime.cwd}/logs/
+  starting_checkpoint_path: ${hydra:runtime.cwd}/outputs/training/checkpoints/checkpoint_0.pth.tar
+model:
+  best_mdl: ${hydra:runtime.cwd}/models/model_best.pth.tar
+params:
+  mode: dmg
+  device: cuda:0 
+  epochs: 1500
+  lr: 0.005
+  batch_size: 32
+  num_chips_to_viz: 1
+  label_map: ${hydra:runtime.cwd}/utils/xBD_label_map.json
+  labels_dmg: [0, 1, 2, 3, 4]
+  labels_bld: [0, 1]
+  weights_seg: [1, 15]
+  weights_damage: [1, 35, 70, 150, 120]
+  weights_loss: [0, 0, 1]
+  schedulermode: min
+  patience: 2000
