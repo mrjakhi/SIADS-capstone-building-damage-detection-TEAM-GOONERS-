@@ -4,7 +4,6 @@ We plan to assess levels/severity of damage for the damaged buildings but with M
 - Natural disasters cause significant damage to our infrastructure.
 - The ability to quickly assess the damage is critical for emergency responders
 - Our goal is to apply ML to assess damage density in disaster-stricken areas using pre-disaster and post-disaster satellite imagery.
-![image](https://user-images.githubusercontent.com/55030743/233042593-aa5c9a7e-1eb2-421e-9a51-b94b536e3d32.png)
 
 
 ## Proposal and questions we hope to answer or explore? 
@@ -56,6 +55,8 @@ Folder structure is as below:
 ## Siamese-UNet architecture
 
 ![image](https://user-images.githubusercontent.com/55030743/233041865-187c7aac-cf24-4e88-8c09-a79ff52af617.png)
+
+
 ![image](https://user-images.githubusercontent.com/55030743/233042102-49487c42-661e-4cfd-ac07-3086392e85c1.png)
 
 ## How to run the Streamlit App:
