@@ -22,13 +22,14 @@ The model may mistakenly classify more buildings as damaged as a result of pixel
 ## Data source: https://xview2.org/ 
 From xView2 website first we needed to create an account and download the respective .tar files 
 
-
-  - Challenge training set (~7.8 GB)
+- Challenge training set (~7.8 GB)
   SHA1: b37a4ef4ee9c909e2b19d046e49d42ee3965714b
-  - Challenge test set (~2.6 GB)
+- Challenge test set (~2.6 GB)
   SHA1: 86ed3dba2f8d16ceceb75d451005054fefa9616f
-  - Challenge holdout set (~2.6 GB)
+- Challenge holdout set (~2.6 GB)
   SHA1: fe7f162f0895bfaff134cab3abc23872f38d17da
+  
+  
 Data split was already provided between Train/Test/Hold (80/10/10)
 
 Unzip above files to have the folder structure given below. 
